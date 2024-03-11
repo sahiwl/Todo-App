@@ -1,7 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background-color: #535C91;
-}
+::-webkit-scrollbar {
+    width: 1em;
+    height: 1em;
+  }
+  
+ ::-webkit-scrollbar-track {
+    background: hsl(255, 29%, 13%);
+
+    border-radius: 100vw;
+    margin-block: 0.5em;
+  }
+  
+::-webkit-scrollbar-thumb{
+    background: hsl(258, 64%, 12%);
+    border-radius: 100vw;
+    margin-block: 0.5em;
+  }

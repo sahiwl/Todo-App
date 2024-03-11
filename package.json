@@ -15,7 +15,6 @@
     "express": "^4.18.3",
     "mongoose": "^8.2.0",
     "react": "^18.2.0",
-    "react-custom-scroll": "^7.0.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
