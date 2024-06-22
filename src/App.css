@@ -3,6 +3,34 @@
 @tailwind components;
 @tailwind utilities;
 
+
+body{
+  background-color: #1f1f1f;
+
+}
+body::before,
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  opacity: var(--theme-bg-stripe-opacity);
+  display: block;
+  z-index: -9999;
+}
+
+body::after {
+  left: 0;
+  width: 100%;
+  background-image: linear-gradient(
+    0deg,
+    var(--theme-bg-stripe-color) 0.1em,
+    transparent 0.1em,
+    transparent 100%
+  );
+  background-size: 1em 2em;
+}
+
 ::-webkit-scrollbar {
     width: 1em;
     height: 1em;
@@ -20,3 +48,20 @@
     border-radius: 100vw;
     margin-block: 0.5em;
   }
+
+  body {
+    background-color: #141b1e;
+    position: relative;
+    --theme-bg-stripe-color: #434653;
+    --theme-bg-stripe-opacity: 0.1;
+    --theme-accent-stripe-color: #bf8200;
+    --current-color: var(--text-color);
+  }
+
+  
+  body::before {
+    left: 10vw;
+    width: 0.1em;
+    background: var(--theme-accent-stripe-color);
+  }
+  
