@@ -6,10 +6,9 @@ function App() {
   const [count, setCount] = useState(0)
   return(
     <>
-    {/* <div className="bg-gradient-to-r from-gray-950 via bg-purple-950 to-violet-950 h-screen"> */}
-    {/* <div class="top-container min-h-[100vh]"> */}
+    <div className="min-h-[100vh]">
     <Main/>
-    {/* </div> */}
+    </div>
     </>
   )
 }

@@ -30,18 +30,18 @@ body::after {
 }
 
 ::-webkit-scrollbar {
-  width: 1em;
+  width: 12px;
   height: 1em;
 }
 
 ::-webkit-scrollbar-track {
-  background: hsl(255, 29%, 13%);
+  background: #141b1e;
   border-radius: 100vw;
   margin-block: 0.5em;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(258, 64%, 12%);
+  background: #a5b4fc;
   border-radius: 100vw;
   margin-block: 0.5em;
 }
