@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import { Footer } from "./Footer";
 
 const Main = () => {
   const [title, setTitle] = useState("");
@@ -14,27 +15,27 @@ const Main = () => {
     if (savedTasks) {
       try {
         const parsedTasks = JSON.parse(savedTasks);
-        if (Array.isArray(parsedTasks) && parsedTasks.every(task => task.id)) {
-          setCurrTask(parsedTasks);
-        } else {
-          console.error("Tasks loaded from localStorage are not in the correct format:", parsedTasks);
-        }
+        setCurrTask(parsedTasks);
       } catch (error) {
         console.error("Error parsing tasks from localStorage:", error);
       }
     }
   }, []);
 
+  const saveTodos = ()=>{
+    setCurrTask([...currTask, {id: uuidv4(),}])
+  }
+
   // Save tasks to localStorage whenever currTask changes
   useEffect(() => {
-    console.log("Saving tasks to localStorage:", currTask);
+    // console.log("Saving tasks to localStorage:", currTask);
     localStorage.setItem("tasks", JSON.stringify(currTask));
   }, [currTask]);
 
   const submitTasks = (e) => {
     e.preventDefault();
     if (title.trim() !== "" && desc.trim() !== "") {
-      setCurrTask([...currTask, { id: uuidv4(), title, desc }]);
+      setCurrTask([...currTask, { id: uuidv4(), title, desc, completed: false }]);
       setTitle("");
       setDesc("");
     }
@@ -42,6 +43,12 @@ const Main = () => {
 
   const deleteTasks = (taskId) => {
     setCurrTask(currTask.filter(task => task.id !== taskId));
+  };
+
+  const toggleComplete = (taskId) => {
+    setCurrTask(currTask.map(task => 
+      task.id === taskId ? { ...task, completed: !task.completed } : task
+    ));
   };
 
   let taskRender = (
@@ -52,9 +59,20 @@ const Main = () => {
     taskRender = (
       <ul>
         {currTask.map((t) => (
-          <li key={t.id} className="flex items-center justify-between space-x-7 w-96 space-y-3 text-white/80">
+          <li
+            key={t.id}
+            className={`flex items-center justify-between space-x-7 w-96 space-y-3 text-white/80 ${
+              t.completed ? 'line-through text-gray-400' : ''
+            }`}
+          >
             <div className="flex items-center justify-between mb-2 w-2/3 grid space-x-7">
               <div className="text-lg font-bold text-wrap whitespace-wrap">
+                <input
+                  type="checkbox"
+                  checked={t.completed}
+                  onChange={() => toggleComplete(t.id)}
+                  className="mr-2"
+                />
                 {t.title}
                 <div className="text-[15px] text-wrap font-sm">
                   {t.desc}
@@ -63,7 +81,9 @@ const Main = () => {
             </div>
             <button
               onClick={() => deleteTasks(t.id)}
-              className="font-bold py-2 px-4 me-2 mb-1 text-sm text-gray-900 focus:outline-none bg-white/40 rounded-full dark:hover:text-white dark:hover:bg-gray-700"
+              className={`font-bold py-2 px-4 me-2 mb-1 text-sm text-gray-900 focus:outline-none bg-white/40 rounded-full dark:hover:text-white dark:hover:bg-gray-700 ${
+                t.completed ? 'text-gray-400 line-clamp-4' : ''
+              }`}
             >
               Delete
             </button>
@@ -75,26 +95,16 @@ const Main = () => {
 
   return (
     <>
+    
       <div className="flex justify-center items-center font-Quicksand">
-        <div className="flex justify-center flex-col pt-8 rounded-xl w-full max-w-2xl mx-4 md:w-3/4 lg:w-2/5">
-          <div className="flex justify-center -mt-7">
-            <div className="font-medium">
-              made by
-              <a
-                href="https://github.com/sahiwl"
-                className="text-[#dadada] font-semibold"
-              >
-                {me}
-              </a>
-            </div>
-          </div>
-
-          <div className="rounded-lg bg-white/5 p-3">
+        <div className="flex justify-center flex-col sm:pt-4 rounded-xl w-full max-w-2xl mx-4 md:w-3/4 lg:w-2/5 pb-4">
+    
+          <div className="sm:rounded-lg bg-white/5 p-3">
             <h1 className="font- p-5 text-5xl text-slate-300 font-bold text-center dark:hover:text-indigo-300">
-              <a href="https://github.com/sahiwl/Todo-App">Todo List</a>
+              <a href="https://github.com/sahiwl/Todo-App" target="_blank" >Todo List</a>
             </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <form className="grid grid-cols-1 md:grid-cols-5 gap-4" onSubmit={submitTasks}>
               <input
                 type="text"
                 className="placeholder:text-gray-300 m-2 text-white focus:border-purple-500 active:border-purple-500 form-input px-4 py-3 rounded-lg bg-white/10 backdrop-3xl focus:outline-none col-span-4 md:col-span-2"
@@ -117,7 +127,8 @@ const Main = () => {
               >
                 Add task
               </button>
-            </div>
+            </form>
+            
 
             <div className="flex justify-center items-center min-h-[65vh]">
               <div className="text-pretty lg:p-8 md:p-[5px] mb-3 h-96 space-y-2 rounded-lg overflow-auto font-Quicksand w-full max-w-[30rem]">
@@ -127,6 +138,7 @@ const Main = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };
